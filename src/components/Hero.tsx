@@ -1,15 +1,14 @@
-import heroJersey from "@/assets/hero-jersey.jpg";
 import { motion } from "framer-motion";
+
+const HERO_IMAGE_URL = "https://placehold.co/1920x1080/0a1f0a/ffffff?text=Brasil+2026%0AHero+Image";
 
 const Hero = () => {
   return (
     <section className="relative min-h-[90vh] bg-gradient-hero flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src={heroJersey}
+          src={HERO_IMAGE_URL}
           alt="Camisa Brasil 2026"
-          width={1920}
-          height={1080}
           className="w-full h-full object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/60 to-transparent" />
@@ -57,7 +56,7 @@ const Hero = () => {
               href="#produtos"
               className="px-8 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/30"
             >
-              Ver Coleção
+              Ver Catálogo
             </a>
             <a
               href="#custom-lab"
