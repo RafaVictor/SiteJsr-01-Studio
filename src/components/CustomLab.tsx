@@ -2,6 +2,7 @@ import { useState } from "react";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 const customizableProducts = products.filter((p) => p.customizable);
 
@@ -36,7 +37,7 @@ const CustomLab = () => {
     );
   };
 
-  const handleAddToCart = () => {
+  const handleFinalize = () => {
     addItem({
       id: `custom-${selectedProductId}-${Date.now()}`,
       name: `${selectedProduct.name} (Personalizada)`,
@@ -48,6 +49,7 @@ const CustomLab = () => {
       customNumber,
       patches: selectedPatches,
     });
+    toast.success("Camisa personalizada adicionada ao carrinho!");
   };
 
   return (
@@ -58,7 +60,7 @@ const CustomLab = () => {
             Personalização Exclusiva
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Custom Lab 2026
+            Custom <span className="text-gradient-gold">Lab</span>
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto">
             Escolha seu modelo e personalize com nome, número e patches oficiais
@@ -76,8 +78,8 @@ const CustomLab = () => {
               }}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-lg border transition-all ${
                 selectedProductId === p.id
-                  ? "border-primary bg-primary/5 ring-1 ring-primary"
-                  : "border-border hover:border-foreground/30"
+                  ? "border-primary/30 bg-primary/5 ring-1 ring-primary/30"
+                  : "border-border hover:border-primary/20"
               }`}
             >
               <img
@@ -86,7 +88,7 @@ const CustomLab = () => {
                 className="w-10 h-10 rounded-md object-cover"
               />
               <span className="text-sm font-medium text-foreground hidden sm:block">
-                {p.name.replace("Camisa Brasil 2026 — ", "")}
+                {p.name.replace("Brasil 2026 — ", "").replace("Real Madrid ", "RM ").replace("Barcelona ", "Barça ")}
               </span>
             </button>
           ))}
@@ -101,7 +103,7 @@ const CustomLab = () => {
             className="relative flex justify-center"
           >
             <div className="relative w-72 md:w-80">
-              <div className="aspect-[3/4] rounded-xl overflow-hidden bg-muted">
+              <div className="aspect-[3/4] rounded-xl overflow-hidden border border-border">
                 <img
                   src={backImage}
                   alt="Mockup costas da camisa"
@@ -113,16 +115,16 @@ const CustomLab = () => {
               <div className="absolute inset-0 flex flex-col items-center justify-start pt-[22%] pointer-events-none">
                 {customName && (
                   <span
-                    className="font-display font-bold text-xl md:text-2xl tracking-[0.2em] uppercase drop-shadow-lg"
-                    style={{ color: "hsl(var(--primary-foreground))", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}
+                    className="font-display font-bold text-xl md:text-2xl tracking-[0.25em] uppercase"
+                    style={{ color: "hsl(43, 72%, 52%)", textShadow: "0 2px 10px rgba(0,0,0,0.7)" }}
                   >
                     {customName.slice(0, 12)}
                   </span>
                 )}
                 {customNumber && (
                   <span
-                    className="font-display font-bold text-6xl md:text-7xl drop-shadow-lg mt-1"
-                    style={{ color: "hsl(var(--primary-foreground))", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}
+                    className="font-display font-bold text-6xl md:text-7xl mt-1"
+                    style={{ color: "hsl(43, 72%, 52%)", textShadow: "0 2px 10px rgba(0,0,0,0.7)" }}
                   >
                     {customNumber.slice(0, 2)}
                   </span>
@@ -139,38 +141,32 @@ const CustomLab = () => {
             className="space-y-6"
           >
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Seu Nome
-              </label>
+              <label className="block text-sm font-medium text-foreground mb-2">Seu Nome</label>
               <input
                 type="text"
                 maxLength={12}
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value.toUpperCase())}
                 placeholder="Ex: NEYMAR"
-                className="w-full px-4 py-3 rounded-lg border border-input bg-card text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow font-display tracking-wider"
+                className="w-full px-4 py-3 rounded-lg bg-muted border border-primary/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors font-display tracking-wider"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Número
-              </label>
+              <label className="block text-sm font-medium text-foreground mb-2">Número</label>
               <input
                 type="text"
                 maxLength={2}
                 value={customNumber}
                 onChange={(e) => setCustomNumber(e.target.value.replace(/\D/g, ""))}
                 placeholder="Ex: 10"
-                className="w-full px-4 py-3 rounded-lg border border-input bg-card text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow font-display text-2xl tracking-widest"
+                className="w-full px-4 py-3 rounded-lg bg-muted border border-primary/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors font-display text-2xl tracking-widest"
               />
             </div>
 
             {/* Size */}
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Tamanho
-              </label>
+              <label className="block text-sm font-medium text-foreground mb-2">Tamanho</label>
               <div className="flex gap-2">
                 {selectedProduct.sizes.map((size) => (
                   <button
@@ -178,8 +174,8 @@ const CustomLab = () => {
                     onClick={() => setSelectedSize(size)}
                     className={`px-4 py-2 text-sm rounded-lg border transition-colors ${
                       selectedSize === size
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "border-border text-muted-foreground hover:border-foreground"
+                        ? "bg-primary/10 text-primary border-primary/30"
+                        : "border-border text-muted-foreground hover:border-primary/20"
                     }`}
                   >
                     {size}
@@ -189,9 +185,7 @@ const CustomLab = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-3">
-                Patches Colecionáveis
-              </label>
+              <label className="block text-sm font-medium text-foreground mb-3">Patches Colecionáveis</label>
               <div className="grid grid-cols-2 gap-3">
                 {patches.map((patch) => (
                   <button
@@ -199,13 +193,11 @@ const CustomLab = () => {
                     onClick={() => togglePatch(patch.id)}
                     className={`p-3 rounded-lg border text-left transition-all ${
                       selectedPatches.includes(patch.id)
-                        ? "border-primary bg-primary/5 ring-1 ring-primary"
-                        : "border-border hover:border-foreground/30"
+                        ? "border-primary/30 bg-primary/5 ring-1 ring-primary/30"
+                        : "border-border hover:border-primary/20"
                     }`}
                   >
-                    <span className="block text-sm font-medium text-foreground">
-                      {patch.name}
-                    </span>
+                    <span className="block text-sm font-medium text-foreground">{patch.name}</span>
                     <span className="text-xs text-muted-foreground">
                       + R$ {patch.price.toFixed(2).replace(".", ",")}
                     </span>
@@ -216,7 +208,7 @@ const CustomLab = () => {
 
             <div className="border-t border-border pt-4 space-y-2">
               <div className="flex justify-between text-sm text-muted-foreground">
-                <span>{selectedProduct.name.replace("Camisa Brasil 2026 — ", "")}</span>
+                <span>{selectedProduct.name}</span>
                 <span>R$ {basePrice.toFixed(2).replace(".", ",")}</span>
               </div>
               {customizationFee > 0 && (
@@ -231,17 +223,17 @@ const CustomLab = () => {
                   <span>R$ {patchTotal.toFixed(2).replace(".", ",")}</span>
                 </div>
               )}
-              <div className="flex justify-between font-display font-bold text-lg text-foreground pt-2 border-t border-border">
+              <div className="flex justify-between font-display font-bold text-lg text-primary pt-2 border-t border-border">
                 <span>Total</span>
                 <span>R$ {totalPrice.toFixed(2).replace(".", ",")}</span>
               </div>
             </div>
 
             <button
-              onClick={handleAddToCart}
-              className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/30"
+              onClick={handleFinalize}
+              className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20"
             >
-              Adicionar ao Carrinho
+              Finalizar Personalização
             </button>
           </motion.div>
         </div>
