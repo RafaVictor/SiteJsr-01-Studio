@@ -28,7 +28,6 @@ const ExclusiveRequestModal = ({ open, onClose }: Props) => {
     setSeason("");
     setSize("");
     setName("");
-    setWhatsapp("");
     setSubmitted(false);
   };
 
