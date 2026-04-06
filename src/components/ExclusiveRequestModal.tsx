@@ -158,24 +158,14 @@ const ExclusiveRequestModal = ({ open, onClose }: Props) => {
                 )}
 
                 {step === 3 && (
-                  <div className="space-y-3">
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Seu nome"
-                      maxLength={50}
-                      className="w-full px-4 py-3 rounded-lg bg-muted border border-primary/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-                    />
-                    <input
-                      type="tel"
-                      value={whatsapp}
-                      onChange={(e) => setWhatsapp(e.target.value.replace(/[^\d+\-() ]/g, ""))}
-                      placeholder="WhatsApp (com DDD)"
-                      maxLength={20}
-                      className="w-full px-4 py-3 rounded-lg bg-muted border border-primary/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Seu nome"
+                    maxLength={50}
+                    className="w-full px-4 py-3 rounded-lg bg-muted border border-primary/20 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                  />
                 )}
               </div>
 
