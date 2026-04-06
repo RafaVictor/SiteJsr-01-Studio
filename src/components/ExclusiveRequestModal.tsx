@@ -47,6 +47,9 @@ const ExclusiveRequestModal = ({ open, onClose }: Props) => {
   };
 
   const handleSubmit = () => {
+    const text = `Olá! Gostaria de solicitar um manto exclusivo:%0A-Nome: ${encodeURIComponent(name)}%0A-Time: ${encodeURIComponent(team)}%0A-Temporada: ${encodeURIComponent(season)}%0A-Tamanho: ${encodeURIComponent(size)}`;
+    const url = `https://wa.me/5581985402833?text=${text}`;
+    window.open(url, '_blank');
     setSubmitted(true);
   };
 
