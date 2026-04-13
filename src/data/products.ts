@@ -18,7 +18,7 @@ export interface Product {
   customizable: boolean;
 }
 
-const cloudinaryUrl = (path: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/${path}`;
+const cloudinaryUrl = (path: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/${path}`;
 
 const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => {
   const mapping: Record<string, string> = {
