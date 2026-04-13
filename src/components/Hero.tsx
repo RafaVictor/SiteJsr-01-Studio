@@ -15,7 +15,7 @@ const Hero = () => {
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-hero">
           <img
-            src="https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/hero-jersey.jpg"
+            src="https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/hero-jersey.jpg"
             alt="Estádio atmosférico"
             className="w-full h-full object-cover opacity-30 mix-blend-lighten"
           />

@@ -472,7 +472,7 @@ export const reviews = [
     rating: 5,
     comment: "Qualidade incrível! O tecido é muito confortável e o acabamento é impecável. Melhor camisa que já tive.",
     date: "15 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-1.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-1.jpg",
     verified: true,
     photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-1.jpg",
   },
