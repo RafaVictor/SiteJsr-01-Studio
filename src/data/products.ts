@@ -18,8 +18,56 @@ export interface Product {
   customizable: boolean;
 }
 
-const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") =>
-  `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
+const cloudinaryUrl = (path: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/${path}`;
+
+const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => {
+  const mapping: Record<string, string> = {
+    "1_Frente": "brasil-home-front",
+    "1_Costas": "brasil-home-back",
+    "1_Tecido": "brasil-home-detail",
+    "2_Frente": "brasil-classic-front",
+    "2_Costas": "brasil-classic-back",
+    "3_Frente": "brasil-away-front",
+    "3_Costas": "brasil-away-back",
+    "11_Frente": "flamengo-front",
+    "11_Costas": "flamengo-back",
+    "12_Frente": "palmeiras-front",
+    "12_Costas": "palmeiras-back",
+    "13_Frente": "saopaulo-front",
+    "13_Costas": "saopaulo-back",
+    "14_Frente": "corinthians-front",
+    "14_Costas": "corinthians-back",
+    "5_Frente": "real-madrid-front",
+    "5_Costas": "real-madrid-back",
+    "6_Frente": "barcelona-front",
+    "6_Costas": "barcelona-back",
+    "15_Frente": "city-front",
+    "15_Costas": "city-back",
+    "16_Frente": "argentina-front",
+    "16_Costas": "argentina-back",
+    "17_Frente": "france-front",
+    "17_Costas": "france-back",
+    "18_Frente": "japan-front",
+    "18_Costas": "japan-back",
+    "7_Frente": "retro-70-front",
+    "7_Costas": "retro-70-back",
+    "8_Frente": "retro-02-front",
+    "8_Costas": "retro-02-back",
+    "19_Frente": "italy-06-front",
+    "19_Costas": "italy-06-back",
+    "9_Frente": "treino-front",
+    "9_Costas": "treino-back",
+    "10_Frente": "pre-jogo-front",
+    "10_Costas": "pre-jogo-back",
+  };
+
+  const key = `${id}_${view}`;
+  if (mapping[key]) {
+    return cloudinaryUrl(`${mapping[key]}.jpg`);
+  }
+
+  return `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
+};
 
 export const products: Product[] = [
   {
@@ -327,9 +375,9 @@ export const reviews = [
     rating: 5,
     comment: "Qualidade incrível! O tecido é muito confortável e o acabamento é impecável. Melhor camisa que já tive.",
     date: "15 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=LM",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-1.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+1",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-1.jpg",
   },
   {
     id: "2",
@@ -337,9 +385,9 @@ export const reviews = [
     rating: 5,
     comment: "Amei a personalização! Coloquei meu nome e ficou perfeito. Entrega super rápida.",
     date: "12 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=AC",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-2.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+2",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-2.jpg",
   },
   {
     id: "3",
@@ -347,9 +395,9 @@ export const reviews = [
     rating: 4,
     comment: "Camisa linda, material premium. Só achei que poderia ter mais opções de patches.",
     date: "10 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=PH",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-3.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+3",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-3.jpg",
   },
   {
     id: "4",
@@ -357,9 +405,9 @@ export const reviews = [
     rating: 5,
     comment: "Presente perfeito pro meu marido! A Black Edition é simplesmente espetacular.",
     date: "08 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=JS",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-4.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+4",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-4.jpg",
   },
   {
     id: "5",
@@ -367,9 +415,9 @@ export const reviews = [
     rating: 5,
     comment: "A retrô de 1970 é uma obra de arte. Qualidade impecável.",
     date: "05 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=RT",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-5.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+5",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-5.jpg",
   },
   {
     id: "6",
@@ -377,8 +425,8 @@ export const reviews = [
     rating: 5,
     comment: "Comprei a visitante e a mandante. As duas são espetaculares!",
     date: "02 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=CF",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-6.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+6",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-6.jpg",
   },
 ];
