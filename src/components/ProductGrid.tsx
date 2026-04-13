@@ -2,6 +2,7 @@ import { useState } from "react";
 import { products, categoryOrder, Product, CategoryType } from "@/data/products";
 import ProductCard from "./ProductCard";
 import ProductDetailModal from "./ProductDetailModal";
+import { motion, AnimatePresence } from "framer-motion";
 
 const sizes = ["Todos", "P", "M", "G", "GG", "XGG"];
 
@@ -72,15 +73,20 @@ const ProductGrid = () => {
               Nenhum produto encontrado com esses filtros.
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filtered.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onOpenDetail={setDetailProduct}
-                />
-              ))}
-            </div>
+            <motion.div 
+              layout
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <AnimatePresence mode="popLayout">
+                {filtered.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onOpenDetail={setDetailProduct}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
           )}
         </div>
       </section>
