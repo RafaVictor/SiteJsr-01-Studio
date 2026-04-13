@@ -18,52 +18,77 @@ export interface Product {
   customizable: boolean;
 }
 
-const cloudinaryUrl = (path: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/f_auto,q_auto/manto-store/${path}`;
+const cloudinaryUrl = (id: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/f_auto,q_auto/${id}`;
 
 const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => {
   const mapping: Record<string, string> = {
-    "1_Frente": "brasil-home-front",
-    "1_Costas": "brasil-home-back",
-    "1_Tecido": "brasil-home-detail",
-    "2_Frente": "brasil-classic-front",
-    "2_Costas": "brasil-classic-back",
-    "3_Frente": "brasil-away-front",
-    "3_Costas": "brasil-away-back",
-    "11_Frente": "flamengo-front",
-    "11_Costas": "flamengo-back",
-    "12_Frente": "palmeiras-front",
-    "12_Costas": "palmeiras-back",
-    "13_Frente": "saopaulo-front",
-    "13_Costas": "saopaulo-back",
-    "14_Frente": "corinthians-front",
-    "14_Costas": "corinthians-back",
-    "5_Frente": "real-madrid-front",
-    "5_Costas": "real-madrid-back",
-    "6_Frente": "barcelona-front",
-    "6_Costas": "barcelona-back",
-    "15_Frente": "city-front",
-    "15_Costas": "city-back",
-    "16_Frente": "argentina-front",
-    "16_Costas": "argentina-back",
-    "17_Frente": "france-front",
-    "17_Costas": "france-back",
-    "18_Frente": "japan-front",
-    "18_Costas": "japan-back",
-    "7_Frente": "retro-70-front",
-    "7_Costas": "retro-70-back",
-    "8_Frente": "retro-02-front",
-    "8_Costas": "retro-02-back",
-    "19_Frente": "italy-06-front",
-    "19_Costas": "italy-06-back",
-    "9_Frente": "treino-front",
-    "9_Costas": "treino-back",
-    "10_Frente": "pre-jogo-front",
-    "10_Costas": "pre-jogo-back",
+    // Flamengo
+    "11_Frente": "Flamengo_2526_Player_Version_Home_Jersey_S-4XL",
+    "11_Costas": "2526_Flamengo_Home_All_Sponsors_S-4XL",
+    "11_Visitante_Frente": "Flamengo_2526_Player_Version_Away_Jersey_S-4XL",
+    "11_Visitante_Costas": "2526_Flamengo_away_S-4XL",
+    "11_Treino": "2526_Flamengo_training_suit_S-4XL",
+    "11_Third": "Flamengo_2526_Third_Away_S-XXL",
+    "11_Retro_2001": "Flamengo_2001_Away_Retro_Jersey_S-XXL",
+    "11_Retro_1995": "Flamengo_1995_Home_Retro_Jersey_S-XXL",
+
+    // Palmeiras
+    "12_Frente": "Palmeiras_2425_Home_Jersey_S-4XL",
+    "12_Costas": "2526_Players_Palmeiras_Home_all_sponsors_S-4XL",
+    "12_Visitante": "2526_Players_Palmeiras_away_all_sponsors_S-4XL",
+    "12_Third": "2526_Palmeiras_third_away_S-4XL",
+
+    // Corinthians
+    "14_Frente": "2425_Corinthians_home_all_sponsors_S-4XL",
+    "14_Costas": "2425_Corinthians_Away_All_Sponsors_S-4XL",
+    "14_Third": "2425_Corinthians_Third_Away_S-4XL",
+
+    // Santos
+    "Santos_Home_Frente": "2526_Santos_home_all_sponsors_S-4XL",
+    "Santos_Away_Frente": "2526_Players_Santos_Away_S-4XL",
+    "Santos_Third_Frente": "2526_Santos_Third_away_game_S-4XL",
+
+    // Grêmio
+    "Gremio_Home_Frente": "2526_Gremio_Home_S-4XL",
+    "Gremio_Third_Frente": "2526_Gremio_third_away_S-4XL",
+    
+    // Default mappings
+    "1_Frente": "manto-store/brasil-home-front",
+    "1_Costas": "manto-store/brasil-home-back",
+    "1_Tecido": "manto-store/brasil-home-detail",
+    "2_Frente": "manto-store/brasil-classic-front",
+    "2_Costas": "manto-store/brasil-classic-back",
+    "3_Frente": "manto-store/brasil-away-front",
+    "3_Costas": "manto-store/brasil-away-back",
+    "5_Frente": "manto-store/real-madrid-front",
+    "5_Costas": "manto-store/real-madrid-back",
+    "6_Frente": "manto-store/barcelona-front",
+    "6_Costas": "manto-store/barcelona-back",
+    "15_Frente": "manto-store/city-front",
+    "15_Costas": "manto-store/city-back",
+    "16_Frente": "manto-store/argentina-front",
+    "16_Costas": "manto-store/argentina-back",
+    "17_Frente": "manto-store/france-front",
+    "17_Costas": "manto-store/france-back",
+    "18_Frente": "manto-store/japan-front",
+    "18_Costas": "manto-store/japan-back",
+    "7_Frente": "manto-store/retro-70-front",
+    "7_Costas": "manto-store/retro-70-back",
+    "8_Frente": "manto-store/retro-02-front",
+    "8_Costas": "manto-store/retro-02-back",
+    "19_Frente": "manto-store/italy-06-front",
+    "19_Costas": "manto-store/italy-06-back",
+    "9_Frente": "manto-store/treino-front",
+    "9_Costas": "manto-store/treino-back",
+    "10_Frente": "manto-store/pre-jogo-front",
+    "10_Costas": "manto-store/pre-jogo-back",
   };
 
   const key = `${id}_${view}`;
-  if (mapping[key]) {
-    return cloudinaryUrl(`${mapping[key]}.jpg`);
+  const mappedId = mapping[key];
+  
+  if (mappedId) {
+    return cloudinaryUrl(mappedId);
   }
 
   return `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
