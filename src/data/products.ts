@@ -18,7 +18,11 @@ export interface Product {
   customizable: boolean;
 }
 
-const cloudinaryUrl = (id: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/f_auto,q_auto/${id}`;
+const cloudinaryUrl = (id: string) => {
+  // Ensure the ID has the manto-store/ prefix if it doesn't already
+  const publicId = id.startsWith('manto-store/') ? id : `manto-store/${id}`;
+  return `https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/${publicId}`;
+};
 
 const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => {
   const mapping: Record<string, string> = {
@@ -60,43 +64,51 @@ const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => 
     "Atletico_Mineiro_Away_Frente": "2425_Atletico_Mineiro_away_S-4XL",
     
     // Default mappings
-    "1_Frente": "manto-store/brasil-home-front",
-    "1_Costas": "manto-store/brasil-home-back",
-    "1_Tecido": "manto-store/brasil-home-detail",
-    "2_Frente": "manto-store/brasil-classic-front",
-    "2_Costas": "manto-store/brasil-classic-back",
-    "3_Frente": "manto-store/brasil-away-front",
-    "3_Costas": "manto-store/brasil-away-back",
-    "5_Frente": "manto-store/real-madrid-front",
-    "5_Costas": "manto-store/real-madrid-back",
-    "6_Frente": "manto-store/barcelona-front",
-    "6_Costas": "manto-store/barcelona-back",
-    "15_Frente": "manto-store/city-front",
-    "15_Costas": "manto-store/city-back",
-    "16_Frente": "manto-store/argentina-front",
-    "16_Costas": "manto-store/argentina-back",
-    "17_Frente": "manto-store/france-front",
-    "17_Costas": "manto-store/france-back",
-    "18_Frente": "manto-store/japan-front",
-    "18_Costas": "manto-store/japan-back",
-    "7_Frente": "manto-store/retro-70-front",
-    "7_Costas": "manto-store/retro-70-back",
-    "8_Frente": "manto-store/retro-02-front",
-    "8_Costas": "manto-store/retro-02-back",
-    "19_Frente": "manto-store/italy-06-front",
-    "19_Costas": "manto-store/italy-06-back",
-    "9_Frente": "manto-store/treino-front",
-    "9_Costas": "manto-store/treino-back",
-    "10_Frente": "manto-store/pre-jogo-front",
-    "10_Costas": "manto-store/pre-jogo-back",
+    "1_Frente": "brasil-home-front",
+    "1_Costas": "brasil-home-back",
+    "1_Tecido": "brasil-home-detail",
+    "2_Frente": "brasil-classic-front",
+    "2_Costas": "brasil-classic-back",
+    "3_Frente": "brasil-away-front",
+    "3_Costas": "brasil-away-back",
+    "5_Frente": "real-madrid-front",
+    "5_Costas": "real-madrid-back",
+    "6_Frente": "barcelona-front",
+    "6_Costas": "barcelona-back",
+    "15_Frente": "city-front",
+    "15_Costas": "city-back",
+    "16_Frente": "argentina-front",
+    "16_Costas": "argentina-back",
+    "17_Frente": "france-front",
+    "17_Costas": "france-back",
+    "18_Frente": "japan-front",
+    "18_Costas": "japan-back",
+    "7_Frente": "retro-70-front",
+    "7_Costas": "retro-70-back",
+    "8_Frente": "retro-02-front",
+    "8_Costas": "retro-02-back",
+    "19_Frente": "italy-06-front",
+    "19_Costas": "italy-06-back",
+    "9_Frente": "treino-front",
+    "9_Costas": "treino-back",
+    "10_Frente": "pre-jogo-front",
+    "10_Costas": "pre-jogo-back",
   };
 
-  const key = `${id}_${view}`;
-  const mappedId = mapping[key];
+  const key = id.includes('_') ? `${id}` : `${id}_${view}`;
+  const mappedId = mapping[key] || mapping[id] || mapping[`${id}_Frente`];
   
   if (mappedId) {
+    // Check if we have a local asset for this product ID
+    if (["1", "2", "3", "4", "5", "6"].includes(id)) {
+      return `/src/assets/product-${id}.jpg`;
+    }
     return cloudinaryUrl(mappedId);
   }
+
+  // Fallback for Hero and Logo
+  if (id === "hero-jersey") return "/src/assets/hero-jersey.jpg";
+  if (id === "logo-manto" || id === "logo") return "/src/assets/manto-store-logo.png";
 
   return `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
 };
@@ -468,9 +480,9 @@ export const reviews = [
     rating: 5,
     comment: "Qualidade incrível! O tecido é muito confortável e o acabamento é impecável. Melhor camisa que já tive.",
     date: "15 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-1.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-1.jpg",
     verified: true,
-    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-1.jpg",
+    photo: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/review-1.jpg",
   },
   {
     id: "2",
@@ -478,9 +490,9 @@ export const reviews = [
     rating: 5,
     comment: "Amei a personalização! Coloquei meu nome e ficou perfeito. Entrega super rápida.",
     date: "12 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-2.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-2.jpg",
     verified: true,
-    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-2.jpg",
+    photo: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/review-2.jpg",
   },
   {
     id: "3",
@@ -488,9 +500,9 @@ export const reviews = [
     rating: 4,
     comment: "Camisa linda, material premium. Só achei que poderia ter mais opções de patches.",
     date: "10 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-3.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-3.jpg",
     verified: true,
-    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-3.jpg",
+    photo: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/review-3.jpg",
   },
   {
     id: "4",
@@ -498,9 +510,9 @@ export const reviews = [
     rating: 5,
     comment: "Presente perfeito pro meu marido! A Black Edition é simplesmente espetacular.",
     date: "08 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-4.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-4.jpg",
     verified: true,
-    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-4.jpg",
+    photo: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/review-4.jpg",
   },
   {
     id: "5",
@@ -508,9 +520,9 @@ export const reviews = [
     rating: 5,
     comment: "A retrô de 1970 é uma obra de arte. Qualidade impecável.",
     date: "05 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-5.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-5.jpg",
     verified: true,
-    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-5.jpg",
+    photo: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/review-5.jpg",
   },
   {
     id: "6",
@@ -518,8 +530,8 @@ export const reviews = [
     rating: 5,
     comment: "Comprei a visitante e a mandante. As duas são espetaculares!",
     date: "02 Mar 2026",
-    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/avatar-6.jpg",
+    avatar: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/avatar-6.jpg",
     verified: true,
-    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/manto-store/review-6.jpg",
+    photo: "https://res.cloudinary.com/djy7v8v3o/image/upload/f_auto,q_auto/manto-store/review-6.jpg",
   },
 ];

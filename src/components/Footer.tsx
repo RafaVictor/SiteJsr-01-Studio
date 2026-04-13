@@ -1,4 +1,4 @@
-const mantoLogo = "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/logo-manto.png";
+const mantoLogo = "/src/assets/manto-store-logo.png";
 
 const footerLinks = [
   { label: "Coleção", href: "#produtos" },
