@@ -425,8 +425,8 @@ export const reviews = [
     rating: 5,
     comment: "Comprei a visitante e a mandante. As duas são espetaculares!",
     date: "02 Mar 2026",
-    avatar: "https://placehold.co/100x100/0a0e1a/d4af37?text=CF",
+    avatar: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/avatar-6.jpg",
     verified: true,
-    photo: "https://placehold.co/400x400/1a1a2e/d4af37?text=Cliente+6",
+    photo: "https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/review-6.jpg",
   },
 ];
