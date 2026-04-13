@@ -12,7 +12,7 @@ export interface Product {
   rating: number;
   reviews: number;
   sizes: string[];
-  category: "Brasil 2026" | "Clubes Europeus" | "Retrô" | "Treino";
+  category: "Brasil 2026" | "Clubes Europeus" | "Times Brasileiros" | "Seleções Mundiais" | "Retrô" | "Treino";
   badge?: string;
   description?: string;
   customizable: boolean;
@@ -76,21 +76,64 @@ export const products: Product[] = [
     customizable: true,
   },
   {
-    id: "4",
-    name: "Brasil 2026 — Black Edition",
+    id: "11",
+    name: "Flamengo 2024 — Mandante",
     price: 349.90,
     images: [
-      { url: placeholder("4", "Frente"), alt: "Black edition frente", type: "front" },
-      { url: placeholder("4", "Costas"), alt: "Black edition costas", type: "back" },
-      { url: placeholder("4", "Tecido"), alt: "Tecido premium", type: "fabric" },
-      { url: placeholder("4", "Emblema"), alt: "Emblema dourado", type: "detail" },
+      { url: placeholder("11", "Frente", "111111", "ff0000"), alt: "Flamengo frente", type: "front" },
+      { url: placeholder("11", "Costas", "111111", "ff0000"), alt: "Flamengo costas", type: "back" },
     ],
     rating: 4.9,
-    reviews: 145,
+    reviews: 850,
+    sizes: ["P", "M", "G", "GG", "XGG"],
+    category: "Times Brasileiros",
+    badge: "Popular",
+    description: "O novo Manto Sagrado do Flamengo para a temporada 2024. Tradição em vermelho e preto.",
+    customizable: true,
+  },
+  {
+    id: "12",
+    name: "Palmeiras 2024 — Mandante",
+    price: 349.90,
+    images: [
+      { url: placeholder("12", "Frente", "006400", "ffffff"), alt: "Palmeiras frente", type: "front" },
+      { url: placeholder("12", "Costas", "006400", "ffffff"), alt: "Palmeiras costas", type: "back" },
+    ],
+    rating: 4.8,
+    reviews: 620,
     sizes: ["P", "M", "G", "GG"],
-    category: "Brasil 2026",
-    badge: "Premium",
-    description: "A exclusiva Black Edition com acabamento em dourado fosco. Edição limitada.",
+    category: "Times Brasileiros",
+    description: "Camisa oficial do Palmeiras temporada 2024. O verde da academia com detalhes dourados.",
+    customizable: true,
+  },
+  {
+    id: "13",
+    name: "São Paulo 2024 — Mandante",
+    price: 349.90,
+    images: [
+      { url: placeholder("13", "Frente", "ffffff", "ff0000"), alt: "São Paulo frente", type: "front" },
+      { url: placeholder("13", "Costas", "ffffff", "ff0000"), alt: "São Paulo costas", type: "back" },
+    ],
+    rating: 4.7,
+    reviews: 450,
+    sizes: ["P", "M", "G", "GG"],
+    category: "Times Brasileiros",
+    description: "A clássica camisa branca com as listras horizontais do Tricolor Paulista.",
+    customizable: true,
+  },
+  {
+    id: "14",
+    name: "Corinthians 2024 — Mandante",
+    price: 349.90,
+    images: [
+      { url: placeholder("14", "Frente", "ffffff", "000000"), alt: "Corinthians frente", type: "front" },
+      { url: placeholder("14", "Costas", "ffffff", "000000"), alt: "Corinthians costas", type: "back" },
+    ],
+    rating: 4.7,
+    reviews: 780,
+    sizes: ["P", "M", "G", "GG", "XGG"],
+    category: "Times Brasileiros",
+    description: "O novo manto do Timão para a temporada 2024. O branco imaculado com detalhes em preto.",
     customizable: true,
   },
   {
@@ -98,8 +141,8 @@ export const products: Product[] = [
     name: "Real Madrid 24/25 — Home",
     price: 319.90,
     images: [
-      { url: placeholder("5", "Frente", "111111", "d4af37"), alt: "Real Madrid frente", type: "front" },
-      { url: placeholder("5", "Costas", "111111", "d4af37"), alt: "Real Madrid costas", type: "back" },
+      { url: placeholder("5", "Frente", "ffffff", "d4af37"), alt: "Real Madrid frente", type: "front" },
+      { url: placeholder("5", "Costas", "ffffff", "d4af37"), alt: "Real Madrid costas", type: "back" },
     ],
     rating: 4.8,
     reviews: 230,
@@ -125,12 +168,74 @@ export const products: Product[] = [
     customizable: true,
   },
   {
+    id: "15",
+    name: "Manchester City 24/25 — Home",
+    price: 319.90,
+    images: [
+      { url: placeholder("15", "Frente", "6caee0", "ffffff"), alt: "Man City frente", type: "front" },
+      { url: placeholder("15", "Costas", "6caee0", "ffffff"), alt: "Man City costas", type: "back" },
+    ],
+    rating: 4.8,
+    reviews: 150,
+    sizes: ["P", "M", "G", "GG"],
+    category: "Clubes Europeus",
+    description: "Camisa oficial do Manchester City para a temporada 24/25.",
+    customizable: true,
+  },
+  {
+    id: "16",
+    name: "Argentina 2024 — Mandante",
+    price: 299.90,
+    images: [
+      { url: placeholder("16", "Frente", "75aadb", "ffffff"), alt: "Argentina frente", type: "front" },
+      { url: placeholder("16", "Costas", "75aadb", "ffffff"), alt: "Argentina costas", type: "back" },
+    ],
+    rating: 4.9,
+    reviews: 420,
+    sizes: ["P", "M", "G", "GG"],
+    category: "Seleções Mundiais",
+    badge: "Campeã do Mundo",
+    description: "A camisa dos campeões mundiais. Listras em azul celeste e branco com o escudo da AFA dourado.",
+    customizable: true,
+  },
+  {
+    id: "17",
+    name: "França 2024 — Mandante",
+    price: 299.90,
+    images: [
+      { url: placeholder("17", "Frente", "002395", "ffffff"), alt: "França frente", type: "front" },
+      { url: placeholder("17", "Costas", "002395", "ffffff"), alt: "França costas", type: "back" },
+    ],
+    rating: 4.7,
+    reviews: 280,
+    sizes: ["P", "M", "G", "GG"],
+    category: "Seleções Mundiais",
+    description: "O clássico azul dos Les Bleus com o galo dourado no peito.",
+    customizable: true,
+  },
+  {
+    id: "18",
+    name: "Japão 2024 — Mandante",
+    price: 299.90,
+    images: [
+      { url: placeholder("18", "Frente", "000080", "ffffff"), alt: "Japão frente", type: "front" },
+      { url: placeholder("18", "Costas", "000080", "ffffff"), alt: "Japão costas", type: "back" },
+    ],
+    rating: 5.0,
+    reviews: 190,
+    sizes: ["P", "M", "G", "GG"],
+    category: "Seleções Mundiais",
+    badge: "Estilo",
+    description: "Design futurista e minimalista dos Samurais Azuis para a temporada 2024.",
+    customizable: true,
+  },
+  {
     id: "7",
     name: "Brasil 1970 — Retrô Pelé",
     price: 249.90,
     images: [
-      { url: placeholder("7", "Frente", "1a1a0a", "d4af37"), alt: "Retrô 1970 frente", type: "front" },
-      { url: placeholder("7", "Costas", "1a1a0a", "d4af37"), alt: "Retrô 1970 costas", type: "back" },
+      { url: placeholder("7", "Frente", "ffd700", "006400"), alt: "Retrô 1970 frente", type: "front" },
+      { url: placeholder("7", "Costas", "ffd700", "006400"), alt: "Retrô 1970 costas", type: "back" },
     ],
     rating: 5.0,
     reviews: 412,
@@ -145,8 +250,8 @@ export const products: Product[] = [
     name: "Brasil 2002 — Retrô Penta",
     price: 239.90,
     images: [
-      { url: placeholder("8", "Frente", "0a1a0a", "d4af37"), alt: "Retrô 2002 frente", type: "front" },
-      { url: placeholder("8", "Costas", "0a1a0a", "d4af37"), alt: "Retrô 2002 costas", type: "back" },
+      { url: placeholder("8", "Frente", "ffd700", "006400"), alt: "Retrô 2002 frente", type: "front" },
+      { url: placeholder("8", "Costas", "ffd700", "006400"), alt: "Retrô 2002 costas", type: "back" },
     ],
     rating: 4.8,
     reviews: 310,
@@ -154,6 +259,21 @@ export const products: Product[] = [
     category: "Retrô",
     badge: "Pentacampeão",
     description: "A camisa do penta. Reviva a glória de Ronaldo e companhia.",
+    customizable: false,
+  },
+  {
+    id: "19",
+    name: "Itália 2006 — Retrô Tetra",
+    price: 249.90,
+    images: [
+      { url: placeholder("19", "Frente", "0000ff", "ffffff"), alt: "Itália 2006 frente", type: "front" },
+      { url: placeholder("19", "Costas", "0000ff", "ffffff"), alt: "Itália 2006 costas", type: "back" },
+    ],
+    rating: 4.9,
+    reviews: 140,
+    sizes: ["P", "M", "G", "GG"],
+    category: "Retrô",
+    description: "O manto azul da conquista do tetra mundial pela Azzurra.",
     customizable: false,
   },
   {
@@ -191,7 +311,14 @@ export const products: Product[] = [
 
 export type CategoryType = Product["category"];
 
-export const categoryOrder: CategoryType[] = ["Brasil 2026", "Clubes Europeus", "Retrô", "Treino"];
+export const categoryOrder: CategoryType[] = [
+  "Brasil 2026",
+  "Times Brasileiros",
+  "Clubes Europeus",
+  "Seleções Mundiais",
+  "Retrô",
+  "Treino"
+];
 
 export const reviews = [
   {
