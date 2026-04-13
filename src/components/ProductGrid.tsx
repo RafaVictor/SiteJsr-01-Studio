@@ -26,6 +26,7 @@ const ProductGrid = () => {
   return (
     <>
       <section id="produtos" className="py-20 bg-background">
+        <h1 className="text-white text-4xl text-center">PRODUCT GRID IS HERE</h1>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.3em] text-primary font-semibold mb-2">
