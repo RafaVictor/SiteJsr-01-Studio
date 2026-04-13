@@ -97,9 +97,17 @@ const ProductGrid = () => {
           </div>
 
           {filtered.length === 0 ? (
-            <p className="text-center text-muted-foreground py-12">
-              Nenhum produto encontrado com esses filtros.
-            </p>
+            <div className="text-center py-20 bg-card/30 rounded-2xl border border-dashed border-border">
+              <p className="text-muted-foreground mb-6">
+                Nenhum manto encontrado com esses filtros.
+              </p>
+              <button
+                onClick={() => (window as any).openRequestModal?.()}
+                className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+              >
+                Solicitar Manto Específico
+              </button>
+            </div>
           ) : (
             <motion.div 
               layout
