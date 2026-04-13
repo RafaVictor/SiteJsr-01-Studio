@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { X, Star, ChevronLeft, ChevronRight, ShoppingBag, Award } from "lucide-react";
+import { Star, ShoppingBag, Award, X, ChevronLeft, ChevronRight, ShoppingCart, Info } from "lucide-react";
 import { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription,
+  DialogClose
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   product: Product;
   onClose: () => void;
 }
-
-const imageTypeLabels: Record<string, string> = {
-  front: "Frente",
-  back: "Costas",
-  detail: "Detalhe",
-  fabric: "Tecido",
-  label: "Etiqueta",
-};
 
 const ProductDetailModal = ({ product, onClose }: Props) => {
   const [activeImage, setActiveImage] = useState(0);
@@ -38,129 +38,120 @@ const ProductDetailModal = ({ product, onClose }: Props) => {
   const prevImage = () => setActiveImage((prev) => (prev - 1 + product.images.length) % product.images.length);
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style={{ background: "hsla(220, 60%, 4%, 0.85)", backdropFilter: "blur(12px)" }}
-        onClick={onClose}
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          onClick={(e) => e.stopPropagation()}
-          className="glass-strong rounded-2xl border border-primary/10 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {/* Gallery */}
-            <div className="relative bg-muted/30">
-              <button
-                onClick={onClose}
-                className="absolute top-3 right-3 z-10 p-2 rounded-full glass hover:bg-muted transition-colors"
-              >
-                <X className="w-4 h-4 text-foreground" />
-              </button>
+    <Dialog open={!!product} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-w-4xl p-0 overflow-hidden border-none bg-white rounded-2xl shadow-2xl">
+        <DialogHeader className="sr-only">
+          <DialogTitle>{product.name}</DialogTitle>
+          <DialogDescription>{product.description}</DialogDescription>
+        </DialogHeader>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          {/* Gallery */}
+          <div className="relative bg-muted/30">
+            <div className="relative aspect-square">
+              <img
+                src={product.images[activeImage].url}
+                alt={product.images[activeImage].alt}
+                className="w-full h-full object-cover"
+              />
 
-              <div className="relative aspect-square">
-                <img
-                  src={product.images[activeImage].url}
-                  alt={product.images[activeImage].alt}
-                  className="w-full h-full object-cover"
-                />
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 backdrop-blur shadow-sm hover:bg-white transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4 text-foreground" />
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 backdrop-blur shadow-sm hover:bg-white transition-colors"
+                  >
+                    <ChevronRight className="w-4 h-4 text-foreground" />
+                  </button>
+                </>
+              )}
 
-                {/* Premium badge */}
-                <span className="absolute top-3 left-3 flex items-center gap-1 px-2.5 py-1 rounded-full glass text-xs font-semibold text-primary">
-                  <Award className="w-3 h-3" />
-                  Premium 1.1
-                </span>
-
-                {product.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full glass hover:bg-muted transition-colors"
-                    >
-                      <ChevronLeft className="w-4 h-4 text-foreground" />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full glass hover:bg-muted transition-colors"
-                    >
-                      <ChevronRight className="w-4 h-4 text-foreground" />
-                    </button>
-                  </>
-                )}
-
-                <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full glass text-xs font-medium text-foreground">
-                  {imageTypeLabels[product.images[activeImage].type] || "Foto"} · {activeImage + 1}/{product.images.length}
-                </div>
-              </div>
-
-              <div className="flex gap-2 p-3 overflow-x-auto">
-                {product.images.map((img, i) => (
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {product.images.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveImage(i)}
-                    className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
-                      activeImage === i ? "border-primary" : "border-transparent opacity-50 hover:opacity-100"
+                    className={`w-1.5 h-1.5 rounded-full transition-all ${
+                      activeImage === i ? "bg-primary w-4" : "bg-black/20"
                     }`}
-                  >
-                    <img src={img.url} alt={img.alt} className="w-full h-full object-cover" />
-                  </button>
+                  />
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Info */}
-            <div className="p-6 flex flex-col">
-              {product.badge && (
-                <span className="inline-block self-start px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-3">
-                  {product.badge}
+          {/* Info */}
+          <div className="p-8 flex flex-col max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <span className="inline-block px-2 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider mb-2">
+                  {product.category} · {product.year}
                 </span>
-              )}
-
-              <h2 className="font-display text-xl font-bold text-card-foreground mb-1">
-                {product.name}
-              </h2>
-
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">
-                {product.category} · Manto Store
-              </p>
-
-              <div className="flex items-center gap-1.5 mb-4">
-                <div className="flex">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted"}`}
-                    />
-                  ))}
+                <h2 className="text-2xl font-bold text-foreground mb-1 leading-tight">
+                  {product.name}
+                </h2>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl font-bold text-primary">
+                    R$ {product.price.toFixed(2).replace(".", ",")}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    ou 3x de R$ {(product.price / 3).toFixed(2).replace(".", ",")}
+                  </span>
                 </div>
-                <span className="text-sm text-muted-foreground">
-                  {product.rating} ({product.reviews} avaliações)
-                </span>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                  <Info className="w-4 h-4 text-primary" />
+                  Especificações do Manto
+                </h3>
+                <div className="grid grid-cols-2 gap-3 p-4 bg-muted/30 rounded-xl border border-border/50">
+                  <div>
+                    <p className="text-[10px] uppercase font-bold text-muted-foreground mb-0.5">Tecido</p>
+                    <p className="text-sm font-medium text-foreground">{product.fabric}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase font-bold text-muted-foreground mb-0.5">Ano</p>
+                    <p className="text-sm font-medium text-foreground">{product.year}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase font-bold text-muted-foreground mb-0.5">Estilo</p>
+                    <p className="text-sm font-medium text-foreground">{product.style}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase font-bold text-muted-foreground mb-0.5">Numeração</p>
+                    <p className="text-sm font-medium text-foreground">{product.numbering}</p>
+                  </div>
+                </div>
               </div>
 
               {product.description && (
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                  {product.description}
-                </p>
+                <div className="space-y-2">
+                  <h3 className="text-sm font-bold text-foreground">Descrição</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {product.description}
+                  </p>
+                </div>
               )}
 
-              <div className="mb-6">
-                <span className="text-sm font-medium text-foreground mb-2 block">Tamanho</span>
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold text-foreground">Selecione o Tamanho</h3>
                 <div className="flex gap-2">
                   {product.sizes.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 text-sm rounded-lg border transition-colors ${
+                      className={`min-w-[48px] h-12 flex items-center justify-center text-sm font-bold rounded-lg border-2 transition-all ${
                         selectedSize === size
-                          ? "bg-primary/10 text-primary border-primary/30"
+                          ? "bg-primary/5 text-primary border-primary"
                           : "border-border text-muted-foreground hover:border-primary/20"
                       }`}
                     >
@@ -170,39 +161,31 @@ const ProductDetailModal = ({ product, onClose }: Props) => {
                 </div>
               </div>
 
-              <div className="mt-auto space-y-4">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-display text-2xl font-bold text-primary">
-                    R$ {product.price.toFixed(2).replace(".", ",")}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    ou 3x de R$ {(product.price / 3).toFixed(2).replace(".", ",")}
-                  </span>
-                </div>
-
-                <button
+              <div className="pt-4 space-y-3">
+                <Button
                   onClick={handleAdd}
-                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+                  size="lg"
+                  className="w-full h-14 text-base font-bold gap-2 shadow-lg shadow-primary/20"
                 >
-                  <ShoppingBag className="w-4 h-4" />
+                  <ShoppingCart className="w-5 h-5" />
                   Adicionar ao Carrinho
-                </button>
-
+                </Button>
+                
                 {product.customizable && (
-                  <a
-                    href="#custom-lab"
-                    onClick={onClose}
-                    className="block text-center text-sm text-primary hover:underline"
-                  >
-                    Personalizar com nome e número →
-                  </a>
+                  <p className="text-center text-xs text-muted-foreground">
+                    Este item aceita personalização oficial de nome e número.
+                  </p>
                 )}
               </div>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+        </div>
+
+        <DialogClose className="absolute top-4 right-4 p-2 rounded-full bg-black/5 hover:bg-black/10 transition-colors">
+          <X className="w-5 h-5 text-foreground" />
+        </DialogClose>
+      </DialogContent>
+    </Dialog>
   );
 };
 
