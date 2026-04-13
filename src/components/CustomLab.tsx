@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 const customizableProducts = products.filter((p) => p.customizable);
@@ -113,22 +113,32 @@ const CustomLab = () => {
               </div>
               {/* Custom name/number overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-start pt-[22%] pointer-events-none">
-                {customName && (
-                  <span
-                    className="font-display font-bold text-xl md:text-2xl tracking-[0.25em] uppercase"
-                    style={{ color: "hsl(43, 72%, 52%)", textShadow: "0 2px 10px rgba(0,0,0,0.7)" }}
-                  >
-                    {customName.slice(0, 12)}
-                  </span>
-                )}
-                {customNumber && (
-                  <span
-                    className="font-display font-bold text-6xl md:text-7xl mt-1"
-                    style={{ color: "hsl(43, 72%, 52%)", textShadow: "0 2px 10px rgba(0,0,0,0.7)" }}
-                  >
-                    {customNumber.slice(0, 2)}
-                  </span>
-                )}
+                <AnimatePresence mode="wait">
+                  {customName && (
+                    <motion.span
+                      key={customName}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="font-display font-bold text-xl md:text-2xl tracking-[0.25em] uppercase"
+                      style={{ color: "hsl(43, 72%, 52%)", textShadow: "0 2px 10px rgba(0,0,0,0.7)" }}
+                    >
+                      {customName.slice(0, 12)}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                <AnimatePresence mode="wait">
+                  {customNumber && (
+                    <motion.span
+                      key={customNumber}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="font-display font-bold text-6xl md:text-7xl mt-1"
+                      style={{ color: "hsl(43, 72%, 52%)", textShadow: "0 2px 10px rgba(0,0,0,0.7)" }}
+                    >
+                      {customNumber.slice(0, 2)}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </motion.div>
