@@ -1,9 +1,9 @@
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, Search } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ExclusiveRequestModal from "./ExclusiveRequestModal";
-import mantoLogo from "@/assets/manto-store-logo.png";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Coleção", href: "#produtos" },
@@ -16,58 +16,75 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [requestOpen, setRequestOpen] = useState(false);
 
-  // Expose request modal trigger to window for access from other components
   if (typeof window !== 'undefined') {
     (window as any).openRequestModal = () => setRequestOpen(true);
   }
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-strong">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <a href="#" className="flex items-center">
-            <img src={mantoLogo} alt="Manto Store" className="h-10 w-auto" />
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-border/50">
+        <div className="container mx-auto flex items-center justify-between h-20 px-4">
+          <a href="#" className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/20">
+              M
+            </div>
+            <span className="font-bold text-xl tracking-tight text-foreground hidden sm:block">
+              MANTO<span className="text-primary italic">STORE</span>
+            </span>
           </a>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
-              <motion.a
+              <a
                 key={link.href}
                 href={link.href}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider"
               >
                 {link.label}
-              </motion.a>
+              </a>
             ))}
-            <button
-              onClick={() => setRequestOpen(true)}
-              className="px-4 py-2 text-sm font-semibold rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition-all"
-            >
-              Solicitar Manto Exclusivo
-            </button>
           </div>
 
-          <div className="flex items-center gap-4">
-            <button
+          <div className="flex items-center gap-3">
+             <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full hover:bg-muted"
+            >
+              <Search className="w-5 h-5 text-foreground" />
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsOpen(true)}
-              className="relative p-2 rounded-lg hover:bg-muted transition-colors"
+              className="relative rounded-full hover:bg-muted"
             >
               <ShoppingBag className="w-5 h-5 text-foreground" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-black">
                   {totalItems}
                 </span>
               )}
-            </button>
+            </Button>
 
-            <button
-              className="md:hidden p-2"
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => setRequestOpen(true)}
+              className="hidden lg:flex font-bold text-xs uppercase tracking-widest px-6 h-10 rounded-full"
+            >
+              Manto Exclusivo
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden rounded-full"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <X className="w-5 h-5 text-foreground" /> : <Menu className="w-5 h-5 text-foreground" />}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -77,28 +94,28 @@ const Navbar = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="md:hidden glass overflow-hidden"
+              className="md:hidden bg-white border-t border-border overflow-hidden"
             >
-              <div className="flex flex-col gap-2 p-4">
+              <div className="flex flex-col gap-4 p-6">
                 {navLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    className="text-lg font-bold text-foreground hover:text-primary transition-colors"
                   >
                     {link.label}
                   </a>
                 ))}
-                <button
+                <Button
                   onClick={() => {
                     setMobileOpen(false);
                     setRequestOpen(true);
                   }}
-                  className="py-2 text-sm font-semibold text-primary text-left"
+                  className="w-full h-12 font-bold"
                 >
                   Solicitar Manto Exclusivo
-                </button>
+                </Button>
               </div>
             </motion.div>
           )}
