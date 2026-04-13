@@ -1,10 +1,8 @@
-import { ShoppingCart, Info, Award } from "lucide-react";
+import { Star, ShoppingBag, Eye, Award } from "lucide-react";
 import { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 interface Props {
   product: Product;
@@ -14,8 +12,10 @@ interface Props {
 const ProductCard = ({ product, onOpenDetail }: Props) => {
   const { addItem } = useCart();
   const [selectedSize, setSelectedSize] = useState(product.sizes[1] || product.sizes[0]);
+  const [hovered, setHovered] = useState(false);
 
   const frontImage = product.images.find((img) => img.type === "front")?.url || product.images[0]?.url || "";
+  const backImage = product.images.find((img) => img.type === "back")?.url || frontImage;
 
   const handleAdd = () => {
     addItem({
@@ -31,87 +31,101 @@ const ProductCard = ({ product, onOpenDetail }: Props) => {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4 }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ y: -5 }}
+      className="group rounded-xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5"
     >
-      <Card className="group relative h-full flex flex-col overflow-hidden border-border/50 bg-white shadow-sm hover:shadow-md transition-all duration-300 card-gradient-border">
-        <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-          <img
-            src={frontImage}
-            alt={product.name}
-            loading="lazy"
-            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-          />
-          
-          {product.badge && (
-            <span className="absolute top-3 left-3 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">
-              {product.badge}
-            </span>
-          )}
-          
-          <div className="absolute top-3 right-3">
-             <span className="flex items-center gap-1 px-2 py-1 rounded bg-white/90 backdrop-blur-sm text-[10px] font-bold text-foreground shadow-sm">
-                {product.year}
-             </span>
+      <div
+        className="relative aspect-[3/4] overflow-hidden bg-muted cursor-pointer"
+        onClick={() => onOpenDetail(product)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <img
+          src={hovered ? backImage : frontImage}
+          alt={product.name}
+          loading="lazy"
+          className="w-full h-full object-cover object-center transition-all duration-500"
+        />
+
+        {/* Premium 1.1 badge */}
+        <span className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full glass text-xs font-semibold text-primary">
+          <Award className="w-3 h-3" />
+          Premium 1.1
+        </span>
+
+        {product.badge && (
+          <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
+            {product.badge}
+          </span>
+        )}
+
+        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-colors duration-300" />
+
+        <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenDetail(product);
+            }}
+            className="p-3 rounded-lg glass text-foreground hover:text-primary transition-colors"
+          >
+            <Eye className="w-4 h-4" />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAdd();
+            }}
+            className="p-3 rounded-lg bg-primary text-primary-foreground hover:brightness-110 transition-all"
+          >
+            <ShoppingBag className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      <div className="p-4">
+        <h3 className="font-display font-semibold text-sm text-card-foreground mb-1 line-clamp-1">
+          {product.name}
+        </h3>
+
+        <div className="flex items-center gap-1 mb-3">
+          <div className="flex">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={`w-3.5 h-3.5 ${i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted"}`}
+              />
+            ))}
           </div>
+          <span className="text-xs text-muted-foreground">({product.reviews})</span>
         </div>
 
-        <CardHeader className="p-4 pb-0">
-          <CardTitle className="text-base font-semibold text-foreground line-clamp-1">
-            {product.name}
-          </CardTitle>
-          <p className="text-xs text-muted-foreground font-medium">
-            {product.category} · {product.year}
-          </p>
-        </CardHeader>
+        <div className="flex gap-1.5 mb-3">
+          {product.sizes.map((size) => (
+            <button
+              key={size}
+              onClick={() => setSelectedSize(size)}
+              className={`px-2 py-1 text-xs rounded-md border transition-colors ${
+                selectedSize === size
+                  ? "bg-primary/10 text-primary border-primary/30"
+                  : "border-border text-muted-foreground hover:border-primary/20"
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
 
-        <CardContent className="p-4 pt-2 flex-grow">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="text-base font-bold text-primary">
-                R$ {product.price.toFixed(2).replace(".", ",")}
-              </span>
-            </div>
-            
-            <div className="flex gap-1.5 mt-2">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
-                    selectedSize === size
-                      ? "bg-primary/10 text-primary border-primary/30"
-                      : "border-border text-muted-foreground hover:border-primary/20"
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-
-        <CardFooter className="p-4 pt-0 gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="flex-1 h-9 text-[13px] gap-1.5"
-            onClick={() => onOpenDetail(product)}
-          >
-            <Info className="w-3.5 h-3.5" />
-            Saiba mais
-          </Button>
-          <Button 
-            size="sm" 
-            className="h-9 px-3"
-            onClick={handleAdd}
-          >
-            <ShoppingCart className="w-4 h-4" />
-          </Button>
-        </CardFooter>
-      </Card>
+        <div className="flex items-center justify-between">
+          <span className="font-display font-bold text-lg text-primary">
+            R$ {product.price.toFixed(2).replace(".", ",")}
+          </span>
+        </div>
+      </div>
     </motion.div>
   );
 };

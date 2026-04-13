@@ -3,8 +3,7 @@ import { products, categoryOrder, Product, CategoryType } from "@/data/products"
 import ProductCard from "./ProductCard";
 import ProductDetailModal from "./ProductDetailModal";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 const sizes = ["Todos", "P", "M", "G", "GG", "XGG"];
 
@@ -26,84 +25,93 @@ const ProductGrid = () => {
 
   return (
     <>
-      <section id="produtos" className="py-24 bg-[#f9fafb]">
+      <section id="produtos" className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
-            <div className="max-w-xl">
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-3 block">
-                Catálogo Premium
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight leading-none">
-                Explore a <span className="text-primary italic">Nova Coleção</span>
-              </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Navegue por nossa seleção exclusiva de mantos sagrados. Qualidade 1.1 impecável, tecidos tecnológicos e personalização oficial disponível.
-              </p>
-            </div>
-            
-            <div className="flex flex-wrap gap-3">
-              <div className="relative w-full sm:w-80">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Busque por time, ano ou categoria..."
-                  className="w-full pl-11 pr-4 py-3.5 bg-white border border-border/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all text-sm shadow-sm"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <Button variant="outline" size="lg" className="h-12 rounded-2xl gap-2 font-bold px-6 bg-white border-border/50 shadow-sm">
-                <Filter className="w-4 h-4" />
-                Filtros
-              </Button>
-            </div>
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-primary font-semibold mb-2">
+              Catálogo Exclusivo
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
+              Coleção <span className="text-gradient-gold">Manto Store</span>
+            </h2>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Camisas premium selecionadas com certificação de qualidade
+            </p>
           </div>
 
-          {/* Categories */}
-          <div className="flex flex-wrap gap-2 mb-10 overflow-x-auto pb-4 scrollbar-hide">
-            <Button
-              variant={activeCategory === "Tudo" ? "default" : "outline"}
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto mb-12 relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Busque por time, seleção ou categoria..."
+              className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex flex-wrap gap-2 justify-center mb-8">
+            <button
               onClick={() => setActiveCategory("Tudo")}
-              className={`h-10 rounded-full text-xs font-bold uppercase tracking-wider px-6 ${
-                activeCategory !== "Tudo" ? "bg-white border-border/50 text-muted-foreground hover:bg-muted" : ""
+              className={`px-5 py-2.5 text-sm font-semibold rounded-lg border transition-all ${
+                activeCategory === "Tudo"
+                  ? "bg-primary/10 text-primary border-primary/30"
+                  : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
               }`}
             >
               Todos os Mantos
-            </Button>
+            </button>
             {categoryOrder.map((cat) => (
-              <Button
+              <button
                 key={cat}
-                variant={activeCategory === cat ? "default" : "outline"}
                 onClick={() => setActiveCategory(cat)}
-                className={`h-10 rounded-full text-xs font-bold uppercase tracking-wider px-6 ${
-                  activeCategory !== cat ? "bg-white border-border/50 text-muted-foreground hover:bg-muted" : ""
+                className={`px-5 py-2.5 text-sm font-semibold rounded-lg border transition-all ${
+                  activeCategory === cat
+                    ? "bg-primary/10 text-primary border-primary/30"
+                    : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
                 }`}
               >
                 {cat}
-              </Button>
+              </button>
+            ))}
+          </div>
+
+          {/* Size Filter */}
+          <div className="flex flex-wrap gap-2 justify-center mb-12">
+            <span className="text-sm font-medium text-muted-foreground self-center mr-2">Tamanho:</span>
+            {sizes.map((s) => (
+              <button
+                key={s}
+                onClick={() => setActiveSize(s)}
+                className={`px-4 py-1.5 text-sm rounded-full border transition-colors ${
+                  activeSize === s
+                    ? "bg-primary/10 text-primary border-primary/30"
+                    : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
+                }`}
+              >
+                {s}
+              </button>
             ))}
           </div>
 
           {filtered.length === 0 ? (
-            <div className="text-center py-32 bg-white rounded-3xl border border-dashed border-border/60 shadow-sm">
-              <div className="w-20 h-20 bg-muted/50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-xl font-bold text-foreground mb-2">Nenhum manto encontrado</h3>
-              <p className="text-sm text-muted-foreground mb-8 max-w-sm mx-auto">
-                Não encontramos o que você procurava. Que tal solicitar um manto exclusivo?
+            <div className="text-center py-20 bg-card/30 rounded-2xl border border-dashed border-border">
+              <p className="text-muted-foreground mb-6">
+                Nenhum manto encontrado com esses filtros.
               </p>
-              <Button
+              <button
                 onClick={() => (window as any).openRequestModal?.()}
-                className="h-12 px-8 rounded-xl font-bold"
+                className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20"
               >
                 Solicitar Manto Específico
-              </Button>
+              </button>
             </div>
           ) : (
             <motion.div 
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
               <AnimatePresence mode="popLayout">
                 {filtered.map((product) => (
@@ -116,13 +124,6 @@ const ProductGrid = () => {
               </AnimatePresence>
             </motion.div>
           )}
-
-          <div className="mt-20 flex justify-center">
-             <Button variant="ghost" className="group text-sm font-bold text-muted-foreground hover:text-primary transition-colors gap-2">
-                Carregar Mais Modelos
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-             </Button>
-          </div>
         </div>
       </section>
 
