@@ -1,21 +1,27 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { products, categoryOrder, Product, CategoryType } from "@/data/products";
 import ProductCard from "./ProductCard";
 import ProductDetailModal from "./ProductDetailModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { Search } from "lucide-react";
 
 const sizes = ["Todos", "P", "M", "G", "GG", "XGG"];
 
 const ProductGrid = () => {
-  const [activeCategory, setActiveCategory] = useState<CategoryType>("Brasil 2026");
+  const [activeCategory, setActiveCategory] = useState<CategoryType | "Tudo">("Tudo");
   const [activeSize, setActiveSize] = useState("Todos");
+  const [searchQuery, setSearchQuery] = useState("");
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
 
-  const filtered = products.filter((p) => {
-    const catMatch = p.category === activeCategory;
-    const sizeMatch = activeSize === "Todos" || p.sizes.includes(activeSize);
-    return catMatch && sizeMatch;
-  });
+  const filtered = useMemo(() => {
+    return products.filter((p) => {
+      const catMatch = activeCategory === "Tudo" || p.category === activeCategory;
+      const sizeMatch = activeSize === "Todos" || p.sizes.includes(activeSize);
+      const searchMatch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          p.category.toLowerCase().includes(searchQuery.toLowerCase());
+      return catMatch && sizeMatch && searchMatch;
+    });
+  }, [activeCategory, activeSize, searchQuery]);
 
   return (
     <>
@@ -33,8 +39,30 @@ const ProductGrid = () => {
             </p>
           </div>
 
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto mb-12 relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Busque por time, seleção ou categoria..."
+              className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
           {/* Category Tabs */}
           <div className="flex flex-wrap gap-2 justify-center mb-8">
+            <button
+              onClick={() => setActiveCategory("Tudo")}
+              className={`px-5 py-2.5 text-sm font-semibold rounded-lg border transition-all ${
+                activeCategory === "Tudo"
+                  ? "bg-primary/10 text-primary border-primary/30"
+                  : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
+              }`}
+            >
+              Todos os Mantos
+            </button>
             {categoryOrder.map((cat) => (
               <button
                 key={cat}
