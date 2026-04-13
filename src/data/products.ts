@@ -51,6 +51,13 @@ const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => 
     // Grêmio
     "Gremio_Home_Frente": "2526_Gremio_Home_S-4XL",
     "Gremio_Third_Frente": "2526_Gremio_third_away_S-4XL",
+
+    // Botafogo
+    "Botafogo_Home_Frente": "2425_Botafogo_Home_All_Sponsors_S-4XL",
+    "Botafogo_Away_Frente": "2425_Botafogo_away_S-4XL",
+
+    // Atlético Mineiro
+    "Atletico_Mineiro_Away_Frente": "2425_Atletico_Mineiro_away_S-4XL",
     
     // Default mappings
     "1_Frente": "manto-store/brasil-home-front",
