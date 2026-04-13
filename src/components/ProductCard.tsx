@@ -2,7 +2,6 @@ import { Star, ShoppingBag, Eye, Award } from "lucide-react";
 import { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
-import { motion } from "framer-motion";
 
 interface Props {
   product: Product;
@@ -29,17 +28,11 @@ const ProductCard = ({ product, onOpenDetail }: Props) => {
   };
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.3 }}
-      whileHover={{ y: -5 }}
-      className="group rounded-xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5"
+    <div
+      className="group rounded-xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5 h-full flex flex-col"
     >
       <div
-        className="relative aspect-[3/4] overflow-hidden bg-muted cursor-pointer"
+        className="relative aspect-[3/4] overflow-hidden bg-muted cursor-pointer shrink-0"
         onClick={() => onOpenDetail(product)}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -87,8 +80,8 @@ const ProductCard = ({ product, onOpenDetail }: Props) => {
         </div>
       </div>
 
-      <div className="p-4">
-        <h3 className="font-display font-semibold text-sm text-card-foreground mb-1 line-clamp-1">
+      <div className="p-4 flex flex-col flex-grow">
+        <h3 className="font-display font-semibold text-sm text-card-foreground mb-1 line-clamp-2 min-h-[2.5rem]">
           {product.name}
         </h3>
 
@@ -104,12 +97,12 @@ const ProductCard = ({ product, onOpenDetail }: Props) => {
           <span className="text-xs text-muted-foreground">({product.reviews})</span>
         </div>
 
-        <div className="flex gap-1.5 mb-3">
+        <div className="flex flex-wrap gap-1.5 mb-4">
           {product.sizes.map((size) => (
             <button
               key={size}
               onClick={() => setSelectedSize(size)}
-              className={`px-2 py-1 text-xs rounded-md border transition-colors ${
+              className={`px-2 py-1 text-[10px] rounded-md border transition-colors ${
                 selectedSize === size
                   ? "bg-primary/10 text-primary border-primary/30"
                   : "border-border text-muted-foreground hover:border-primary/20"
@@ -120,13 +113,13 @@ const ProductCard = ({ product, onOpenDetail }: Props) => {
           ))}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="mt-auto flex items-center justify-between">
           <span className="font-display font-bold text-lg text-primary">
             R$ {product.price.toFixed(2).replace(".", ",")}
           </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
