@@ -31,7 +31,7 @@ const Hero = () => {
               transition={{ duration: 0.8 }}
             >
               <span className="inline-block px-4 py-1.5 rounded-full glass border border-primary/30 text-primary text-sm font-semibold tracking-wide mb-6">
-                COLEÇÃO EXCLUSIVA 2026
+                O MAIOR CATÁLOGO DE MANTOS DO MUNDO
               </span>
             </motion.div>
 
@@ -45,15 +45,15 @@ const Hero = () => {
               <span className="text-gradient-gold">Jogue com estilo.</span>
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-lg text-muted-foreground mb-8 max-w-lg"
-            >
-              Camisas premium da seleção brasileira para a Copa do Mundo 2026.
-              Personalize com seu nome e número.
-            </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-lg text-muted-foreground mb-8 max-w-lg"
+              >
+                Explore milhares de camisas de clubes brasileiros, europeus, seleções e modelos retrô. 
+                Qualidade premium com certificação garantida.
+              </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}

@@ -16,6 +16,11 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [requestOpen, setRequestOpen] = useState(false);
 
+  // Expose request modal trigger to window for access from other components
+  if (typeof window !== 'undefined') {
+    (window as any).openRequestModal = () => setRequestOpen(true);
+  }
+
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 glass-strong">
