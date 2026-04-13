@@ -99,8 +99,16 @@ const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => 
   const mappedId = mapping[key] || mapping[id] || mapping[`${id}_Frente`];
   
   if (mappedId) {
+    // Check if we have a local asset for this product ID
+    if (["1", "2", "3", "4", "5", "6"].includes(id)) {
+      return `/src/assets/product-${id}.jpg`;
+    }
     return cloudinaryUrl(mappedId);
   }
+
+  // Fallback for Hero and Logo
+  if (id === "hero-jersey") return "/src/assets/hero-jersey.jpg";
+  if (id === "logo-manto" || id === "logo") return "/src/assets/manto-store-logo.png";
 
   return `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
 };
