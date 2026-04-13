@@ -18,8 +18,56 @@ export interface Product {
   customizable: boolean;
 }
 
-const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") =>
-  `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
+const cloudinaryUrl = (path: string) => `https://res.cloudinary.com/dly7v8v3o/image/upload/v1715386000/manto-store/${path}`;
+
+const placeholder = (id: string, view: string, bg = "0a0e1a", fg = "d4af37") => {
+  const mapping: Record<string, string> = {
+    "1_Frente": "brasil-home-front",
+    "1_Costas": "brasil-home-back",
+    "1_Tecido": "brasil-home-detail",
+    "2_Frente": "brasil-classic-front",
+    "2_Costas": "brasil-classic-back",
+    "3_Frente": "brasil-away-front",
+    "3_Costas": "brasil-away-back",
+    "11_Frente": "flamengo-front",
+    "11_Costas": "flamengo-back",
+    "12_Frente": "palmeiras-front",
+    "12_Costas": "palmeiras-back",
+    "13_Frente": "saopaulo-front",
+    "13_Costas": "saopaulo-back",
+    "14_Frente": "corinthians-front",
+    "14_Costas": "corinthians-back",
+    "5_Frente": "real-madrid-front",
+    "5_Costas": "real-madrid-back",
+    "6_Frente": "barcelona-front",
+    "6_Costas": "barcelona-back",
+    "15_Frente": "city-front",
+    "15_Costas": "city-back",
+    "16_Frente": "argentina-front",
+    "16_Costas": "argentina-back",
+    "17_Frente": "france-front",
+    "17_Costas": "france-back",
+    "18_Frente": "japan-front",
+    "18_Costas": "japan-back",
+    "7_Frente": "retro-70-front",
+    "7_Costas": "retro-70-back",
+    "8_Frente": "retro-02-front",
+    "8_Costas": "retro-02-back",
+    "19_Frente": "italy-06-front",
+    "19_Costas": "italy-06-back",
+    "9_Frente": "treino-front",
+    "9_Costas": "treino-back",
+    "10_Frente": "pre-jogo-front",
+    "10_Costas": "pre-jogo-back",
+  };
+
+  const key = `${id}_${view}`;
+  if (mapping[key]) {
+    return cloudinaryUrl(`${mapping[key]}.jpg`);
+  }
+
+  return `https://placehold.co/800x1067/${bg}/${fg}?text=${encodeURIComponent(view)}%0AID-${id}`;
+};
 
 export const products: Product[] = [
   {
