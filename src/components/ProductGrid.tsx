@@ -13,15 +13,7 @@ const ProductGrid = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
 
-  const filtered = useMemo(() => {
-    return products.filter((p) => {
-      const catMatch = activeCategory === "Tudo" || p.category === activeCategory;
-      const sizeMatch = activeSize === "Todos" || p.sizes.includes(activeSize);
-      const searchMatch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          p.category.toLowerCase().includes(searchQuery.toLowerCase());
-      return catMatch && sizeMatch && searchMatch;
-    });
-  }, [activeCategory, activeSize, searchQuery]);
+  const filtered = products;
 
   return (
     <>
