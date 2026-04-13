@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { products, categoryOrder, Product, CategoryType } from "@/data/products";
 import ProductCard from "./ProductCard";
 import ProductDetailModal from "./ProductDetailModal";
-import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 
 const sizes = ["Todos", "P", "M", "G", "GG", "XGG"];
@@ -13,12 +12,19 @@ const ProductGrid = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
 
-  const filtered = products;
+  const filtered = useMemo(() => {
+    return products.filter((p) => {
+      const catMatch = activeCategory === "Tudo" || p.category === activeCategory;
+      const sizeMatch = activeSize === "Todos" || p.sizes.includes(activeSize);
+      const searchMatch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          p.category.toLowerCase().includes(searchQuery.toLowerCase());
+      return catMatch && sizeMatch && searchMatch;
+    });
+  }, [activeCategory, activeSize, searchQuery]);
 
   return (
     <>
       <section id="produtos" className="py-20 bg-background">
-        <h1 className="text-white text-4xl text-center">PRODUCT GRID IS HERE</h1>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.3em] text-primary font-semibold mb-2">
@@ -102,20 +108,15 @@ const ProductGrid = () => {
               </button>
             </div>
           ) : (
-            <motion.div 
-              layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            >
-              <AnimatePresence mode="popLayout">
-                {filtered.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onOpenDetail={setDetailProduct}
-                  />
-                ))}
-              </AnimatePresence>
-            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filtered.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onOpenDetail={setDetailProduct}
+                />
+              ))}
+            </div>
           )}
         </div>
       </section>
