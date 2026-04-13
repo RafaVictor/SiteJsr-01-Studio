@@ -30,10 +30,13 @@ const ProductCard = ({ product, onOpenDetail }: Props) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="group rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-all duration-300"
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ y: -5 }}
+      className="group rounded-xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5"
     >
       <div
         className="relative aspect-[3/4] overflow-hidden bg-muted cursor-pointer"
