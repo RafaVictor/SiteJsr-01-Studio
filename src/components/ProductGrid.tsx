@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { products, categoryOrder, Product, CategoryType } from "@/data/products";
 import ProductCard from "./ProductCard";
 import ProductDetailModal from "./ProductDetailModal";
-import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 
 const sizes = ["Todos", "P", "M", "G", "GG", "XGG"];
@@ -24,108 +23,108 @@ const ProductGrid = () => {
   }, [activeCategory, activeSize, searchQuery]);
 
   return (
-    <>
-      <section id="produtos" className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-xs uppercase tracking-[0.3em] text-primary font-semibold mb-2">
-              Catálogo Exclusivo
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
-              Coleção <span className="text-gradient-gold">Manto Store</span>
-            </h2>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Camisas premium selecionadas com certificação de qualidade
-            </p>
-          </div>
+    <section id="produtos" className="py-24 bg-background scroll-mt-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <p className="text-xs uppercase tracking-[0.3em] text-primary font-bold mb-3">
+            Catálogo Exclusivo
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+            Coleção <span className="text-gradient-gold">Manto Store</span>
+          </h2>
+          <p className="text-muted-foreground max-w-lg mx-auto text-lg">
+            A maior seleção de camisas premium com certificação de qualidade garantida.
+          </p>
+        </div>
 
+        {/* Filters and Search Bar Container */}
+        <div className="flex flex-col gap-8 mb-16">
           {/* Search Bar */}
-          <div className="max-w-md mx-auto mb-12 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <div className="max-w-2xl mx-auto w-full relative group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
             <input
               type="text"
               placeholder="Busque por time, seleção ou categoria..."
-              className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground"
+              className="w-full pl-12 pr-6 py-4 bg-card/50 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground text-lg shadow-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2 justify-center mb-8">
-            <button
-              onClick={() => setActiveCategory("Tudo")}
-              className={`px-5 py-2.5 text-sm font-semibold rounded-lg border transition-all ${
-                activeCategory === "Tudo"
-                  ? "bg-primary/10 text-primary border-primary/30"
-                  : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
-              }`}
-            >
-              Todos os Mantos
-            </button>
-            {categoryOrder.map((cat) => (
+          <div className="flex flex-col gap-6 items-center">
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-2 justify-center">
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2.5 text-sm font-semibold rounded-lg border transition-all ${
-                  activeCategory === cat
-                    ? "bg-primary/10 text-primary border-primary/30"
-                    : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
+                onClick={() => setActiveCategory("Tudo")}
+                className={`px-6 py-2.5 text-sm font-semibold rounded-xl border transition-all ${
+                  activeCategory === "Tudo"
+                    ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                    : "bg-card/30 border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
                 }`}
               >
-                {cat}
+                Todos os Mantos
               </button>
-            ))}
-          </div>
-
-          {/* Size Filter */}
-          <div className="flex flex-wrap gap-2 justify-center mb-12">
-            <span className="text-sm font-medium text-muted-foreground self-center mr-2">Tamanho:</span>
-            {sizes.map((s) => (
-              <button
-                key={s}
-                onClick={() => setActiveSize(s)}
-                className={`px-4 py-1.5 text-sm rounded-full border transition-colors ${
-                  activeSize === s
-                    ? "bg-primary/10 text-primary border-primary/30"
-                    : "border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-
-          {filtered.length === 0 ? (
-            <div className="text-center py-20 bg-card/30 rounded-2xl border border-dashed border-border">
-              <p className="text-muted-foreground mb-6">
-                Nenhum manto encontrado com esses filtros.
-              </p>
-              <button
-                onClick={() => (window as any).openRequestModal?.()}
-                className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20"
-              >
-                Solicitar Manto Específico
-              </button>
+              {categoryOrder.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-6 py-2.5 text-sm font-semibold rounded-xl border transition-all ${
+                    activeCategory === cat
+                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                      : "bg-card/30 border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
-          ) : (
-            <motion.div 
-              layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            >
-              <AnimatePresence mode="popLayout">
-                {filtered.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onOpenDetail={setDetailProduct}
-                  />
+
+            {/* Size Filter */}
+            <div className="flex items-center gap-4 p-1.5 bg-card/30 border border-border rounded-2xl">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider ml-3">Tamanho:</span>
+              <div className="flex gap-1">
+                {sizes.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setActiveSize(s)}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-xl transition-all ${
+                      activeSize === s
+                        ? "bg-primary/20 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-card/50"
+                    }`}
+                  >
+                    {s}
+                  </button>
                 ))}
-              </AnimatePresence>
-            </motion.div>
-          )}
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {filtered.length === 0 ? (
+          <div className="text-center py-32 bg-card/20 rounded-3xl border border-dashed border-border/50">
+            <p className="text-muted-foreground text-lg mb-8">
+              Nenhum manto encontrado com esses filtros.
+            </p>
+            <button
+              onClick={() => (window as any).openRequestModal?.()}
+              className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold hover:scale-105 transition-all shadow-xl shadow-primary/20"
+            >
+              Solicitar Manto Específico
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {filtered.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onOpenDetail={setDetailProduct}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       {detailProduct && (
         <ProductDetailModal
@@ -133,7 +132,7 @@ const ProductGrid = () => {
           onClose={() => setDetailProduct(null)}
         />
       )}
-    </>
+    </section>
   );
 };
 
